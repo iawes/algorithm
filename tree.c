@@ -18,7 +18,8 @@ typedef struct struc_node
 
 int node_num = 0;
 int leaf_num = 0;
-char ch[] = {'a', 'b', 'c', ' ', ' ', 'd', ' ', ' ', 'e', 'f', ' ', ' ', 'g', ' ', ' '};
+//char ch[] = {'a', 'b', 'c', ' ', ' ', 'd', ' ', ' ', 'e', 'f', ' ', ' ', 'g', ' ', ' '};
+char ch[] = "ABC##DE#G##F###";
 int inc = 0;
 
 /* 按先序次序输入二叉树中节点的值，以空字符表示空树  */
@@ -26,13 +27,13 @@ int create_bitree(P_TREENODE *T)
 {
     char i;
 
-    if(' ' == ch[inc++])
+    if('#' == ch[inc++])
     {
         *T = NULL;
     }
     else
     {
-        printf("%c\n", ch[inc-1]);
+// printf("%c ", ch[inc-1]);
 
         if(NULL == (*T = (P_TREENODE)malloc(sizeof(TREENODE))))
         {
@@ -45,6 +46,7 @@ int create_bitree(P_TREENODE *T)
         create_bitree(&((*T)->l_child));
         create_bitree(&((*T)->r_child));
     }
+
 
     return 0;
 }
@@ -73,11 +75,11 @@ int in_order_traverse(P_TREENODE T)
         return -1;
     }
 
-    pre_order_traverse(T->l_child);
+    in_order_traverse(T->l_child);
 
     printf("%c ", T->data);
 
-    pre_order_traverse(T->r_child);
+    in_order_traverse(T->r_child);
 
     return 0;
 }
@@ -90,9 +92,9 @@ int post_order_traverse(P_TREENODE T)
         return -1;
     }
 
-    pre_order_traverse(T->l_child);
+    post_order_traverse(T->l_child);
 
-    pre_order_traverse(T->r_child);
+    post_order_traverse(T->r_child);
 
     printf("%c ", T->data);
 
@@ -109,8 +111,8 @@ int count_node_num(P_TREENODE T)
 
     node_num ++;
 
-    pre_order_traverse(T->l_child);
-    pre_order_traverse(T->r_child);
+    count_node_num(T->l_child);
+    count_node_num(T->r_child);
 
     return 0;
 }
@@ -128,15 +130,15 @@ int count_leaf_num(P_TREENODE T)
         leaf_num ++;
     }
 
-    pre_order_traverse(T->l_child);
-    pre_order_traverse(T->r_child);
+    count_leaf_num(T->l_child);
+    count_leaf_num(T->r_child);
 
     return 0;
 }
 
 int main(void)
 {
-    initscr();
+//    initscr();
 
     P_TREENODE test_tree;
     int i;
@@ -145,6 +147,7 @@ int main(void)
 
     do
     {
+        printf("\n");
         printf("**********************************************\n");
         printf("*     you can choose:     \n");
         printf("*  1:  Traverse the Binary tree by pre order     *\n");
@@ -161,7 +164,7 @@ int main(void)
         {
             case 1:
             {
-                printf("The Preorder is :\n");
+                printf("----->The Preorder is :\n");
                 pre_order_traverse(test_tree);
                 printf("\n");
 
@@ -170,7 +173,7 @@ int main(void)
 
             case 2:
             {
-                printf("The midorder is :\n");
+                printf("----->The midorder is :\n");
                 in_order_traverse(test_tree);
                 printf("\n");
 
@@ -179,7 +182,7 @@ int main(void)
 
             case 3:
             {
-                printf("The postorder is :\n");
+                printf("----->The postorder is :\n");
                 post_order_traverse(test_tree);
                 printf("\n");
 
@@ -189,24 +192,27 @@ int main(void)
             case 4:
             {
                 count_node_num(test_tree);
-                printf("The node num of the tree is %d\n", node_num);
+                printf("----->The node num of the tree is %d\n", node_num);
                 break;
             }
 
             case 5:
             {
                 count_leaf_num(test_tree);
-                printf("The leaf num of the tree is %d\n", leaf_num);
+                printf("----->The leaf num of the tree is %d\n", leaf_num);
                 break;
             }
+
+            default:
+                break;
         }
 
         printf("please input any char to go on\n");
-        getch();
+        getchar();
     }while((1<=i) && (6 > i));
 
-    getch();
+    getchar();
 
-    endwin();
+//    endwin();
     return 0;
 }
