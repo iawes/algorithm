@@ -6,7 +6,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <curses.h>
 
 typedef struct struc_node
 {
@@ -20,6 +19,9 @@ int node_num = 0;
 int leaf_num = 0;
 //char ch[] = {'a', 'b', 'c', ' ', ' ', 'd', ' ', ' ', 'e', 'f', ' ', ' ', 'g', ' ', ' '};
 char ch[] = "ABC##DE#G##F###";
+char g_pre_tree[32] = {0};
+char g_in_tree[32] = {0};
+char g_post_tree[32] = {0};
 int inc = 0;
 
 /* 按先序次序输入二叉树中节点的值，以空字符表示空树  */
@@ -47,7 +49,6 @@ int create_bitree(P_TREENODE *T)
         create_bitree(&((*T)->r_child));
     }
 
-
     return 0;
 }
 
@@ -60,6 +61,10 @@ int pre_order_traverse(P_TREENODE T)
     }
 
     printf("%c ", T->data);
+
+    //存储到数组中
+    g_pre_tree[g_len] = T->data;
+    g_len ++;
 
     pre_order_traverse(T->l_child);
     pre_order_traverse(T->r_child);
@@ -78,6 +83,9 @@ int in_order_traverse(P_TREENODE T)
     in_order_traverse(T->l_child);
 
     printf("%c ", T->data);
+    //存储到数组中
+    g_in_tree[g_len] = T->data;
+    g_len ++;
 
     in_order_traverse(T->r_child);
 
@@ -97,6 +105,9 @@ int post_order_traverse(P_TREENODE T)
     post_order_traverse(T->r_child);
 
     printf("%c ", T->data);
+    //存储到数组中
+    g_post_tree[g_len] = T->data;
+    g_len ++;
 
     return 0;
 }
@@ -165,7 +176,12 @@ int main(void)
             case 1:
             {
                 printf("----->The Preorder is :\n");
+                g_len = 0;
+                memset(g_pre_tree, 0, sizeof(g_pre_tree));
+
                 pre_order_traverse(test_tree);
+
+                printf("g_pre_tree is: %s\n", g_pre_tree);
                 printf("\n");
 
                 break;
@@ -174,7 +190,12 @@ int main(void)
             case 2:
             {
                 printf("----->The midorder is :\n");
+                g_len = 0;
+                memset(g_in_tree, 0, sizeof(g_in_tree));
+
                 in_order_traverse(test_tree);
+
+                printf("g_in_tree is: %s\n", g_in_tree);
                 printf("\n");
 
                 break;
@@ -183,7 +204,12 @@ int main(void)
             case 3:
             {
                 printf("----->The postorder is :\n");
+                g_len = 0;
+                memset(g_post_tree, 0, sizeof(g_post_tree));
+
                 post_order_traverse(test_tree);
+
+                printf("g_post_tree is: %s\n", g_post_tree);
                 printf("\n");
 
                 break;
@@ -216,3 +242,4 @@ int main(void)
 //    endwin();
     return 0;
 }
+
