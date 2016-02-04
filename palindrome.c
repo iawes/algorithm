@@ -42,17 +42,23 @@ char *get_palindrome(const char *p_src_str, char *p_output_str, int src_len, int
 //    p_str_tmp[0] = '#';
 
     //转换原字符串
-    for(i=0; i<temp; i++)
+    for(i=0; i<temp; i+=2)
     {
-        if(0 != (i % 2))
-        {
-            p_str_tmp[i] = p_src_str[i/2];
-        }
-        else
-        {
-            p_str_tmp[i] = '#';
-        }
+        p_str_tmp[i] = '#';
+        p_str_tmp[i+1] = p_src_str[i/2];
     }
+
+//    for(i=0; i<temp; i++)
+//    {
+//        if(0 != (i % 2))
+//        {
+//            p_str_tmp[i] = p_src_str[i/2];
+//        }
+//        else
+//        {
+//            p_str_tmp[i] = '#';
+//        }
+//    }
 
 //    RL[0] = 1;
 //    RL[1] = 2;
